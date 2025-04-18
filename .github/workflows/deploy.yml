@@ -35,6 +35,9 @@ jobs:
             --registry-password ${{ secrets.AZURE_CLIENT_SECRET }} \
             --dns-name-label myfastapi1112 \
             --ports 80 \
+            --os-type Linux \
+            --cpu 1 \
+            --memory 1.5 \
             --restart-policy Never || \
           az container update \
             --resource-group ${{ vars.RESOURCE_GROUP }} \
