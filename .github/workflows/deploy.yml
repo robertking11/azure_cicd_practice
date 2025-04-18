@@ -42,3 +42,4 @@ jobs:
             --resource-group ${{ vars.RESOURCE_GROUP }} \
             --name ${{ vars.ACI_NAME }} \
             --image ${{ vars.ACR_NAME }}.azurecr.io/fastapi-app:latest
+
