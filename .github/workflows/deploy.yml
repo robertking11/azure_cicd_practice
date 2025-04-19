@@ -39,3 +39,4 @@ jobs:
             --cpu 1 \
             --memory 1.5 \
             --restart-policy Never 
+            --ingress external
