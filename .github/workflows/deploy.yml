@@ -1,4 +1,4 @@
-name: Build and Deploy FastAPI to ACI
+name: Build and Deploy FastAPI to Azure Container Apps
 
 on:
   push:
@@ -6,11 +6,11 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Log in to Azure
@@ -18,24 +18,26 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Build and Push Docker Image to ACR
+      - name: Log in to ACR
         run: |
-          az acr login --name ${{ vars.ACR_NAME }}
-          docker build -t ${{ vars.ACR_NAME }}.azurecr.io/fastapi-app:latest .
-          docker push ${{ vars.ACR_NAME }}.azurecr.io/fastapi-app:latest
+          echo "${{ secrets.ACR_PASSWORD }}" | docker login ${{ secrets.ACR_NAME }}.azurecr.io --username ${{ secrets.ACR_USERNAME }} --password-stdin
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t ${{ secrets.ACR_NAME }}.azurecr.io/fastapi-app:latest .
+          docker push ${{ secrets.ACR_NAME }}.azurecr.io/fastapi-app:latest
 
       - name: Deploy to Azure Container Apps
         run: |
-          az containerapp create \
-            --name ${{ vars.CONTAINER_APP_NAME }} \
-            --resource-group ${{ vars.RESOURCE_GROUP }} \
-            --environment ${{ vars.CONTAINER_APP_ENV }} \
-            --image ${{ vars.ACR_NAME }}.azurecr.io/fastapi-app:latest \
-            --target-port 80 \
+          az containerapp update \
+            --name ${{ secrets.CONTAINER_APP_NAME }} \
+            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+            --image ${{ secrets.ACR_NAME }}.azurecr.io/fastapi-app:latest \
+            --environment ${{ secrets.CONTAINER_APP_ENV }} \
             --ingress external \
-            --registry-server ${{ vars.ACR_NAME }}.azurecr.io \
-            --registry-username ${{ secrets.AZURE_CLIENT_ID }} \
-            --registry-password ${{ secrets.AZURE_CLIENT_SECRET }} \
-            --cpu 1.0 \
-            --memory 2.0Gi \
-            --revisions-mode single
+            --target-port 80 \
+            --cpu 0.5 \
+            --memory 1.0Gi \
+            --registry-server ${{ secrets.ACR_NAME }}.azurecr.io \
+            --registry-username ${{ secrets.ACR_USERNAME }} \
+            --registry-password ${{ secrets.ACR_PASSWORD }}
