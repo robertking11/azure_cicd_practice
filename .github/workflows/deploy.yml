@@ -34,8 +34,8 @@ jobs:
             --target-port 80 \
             --ingress external \
             --registry-server ${{ vars.ACR_NAME }}.azurecr.io \
-            --registry-username ${{ secrets.ACR_USERNAME }} \
-            --registry-password ${{ secrets.ACR_PASSWORD }} \
+            --registry-username ${{ secrets.AZURE_CLIENT_ID }} \
+            --registry-password ${{ secrets.AZURE_CLIENT_SECRET }} \
             --cpu 1 \
             --memory 1Gi \
             --revisions-mode single
