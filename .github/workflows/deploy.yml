@@ -24,22 +24,16 @@ jobs:
           docker build -t ${{ vars.ACR_NAME }}.azurecr.io/fastapi-app:latest .
           docker push ${{ vars.ACR_NAME }}.azurecr.io/fastapi-app:latest
 
-      - name: Deploy to Azure Container Instances
+      - name: Deploy to Azure Container Apps
         run: |
-          az container create \
+          az containerapp create \
             --resource-group ${{ vars.RESOURCE_GROUP }} \
-            --name ${{ vars.ACI_NAME }} \
+            --name ${{ vars.CONTAINER_APP_NAME }} \
             --image ${{ vars.ACR_NAME }}.azurecr.io/fastapi-app:latest \
+            --environment ${{ vars.CONTAINER_APP_ENV }}
             --registry-login-server ${{ vars.ACR_NAME }}.azurecr.io \
-            --registry-username ${{ secrets.AZURE_CLIENT_ID }} \
-            --registry-password ${{ secrets.AZURE_CLIENT_SECRET }} \
-            --dns-name-label myfastapi1112 \
             --ports 80 \
             --os-type Linux \
             --cpu 1 \
             --memory 1.5 \
-            --restart-policy Never || \
-          az container update \
-            --resource-group ${{ vars.RESOURCE_GROUP }} \
-            --name ${{ vars.ACI_NAME }} \
-            --image ${{ vars.ACR_NAME }}.azurecr.io/fastapi-app:latest
+            --restart-policy Never 
