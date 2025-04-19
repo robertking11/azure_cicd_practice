@@ -29,7 +29,7 @@ jobs:
 
       - name: Deploy to Azure Container Apps
         run: |
-          az containerapp update \
+          az containerapp create \
             --name ${{ secrets.CONTAINER_APP_NAME }} \
             --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
             --image ${{ secrets.ACR_NAME }}.azurecr.io/fastapi-app:latest \
