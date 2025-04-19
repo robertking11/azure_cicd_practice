@@ -36,6 +36,6 @@ jobs:
             --registry-server ${{ vars.ACR_NAME }}.azurecr.io \
             --registry-username ${{ secrets.AZURE_CLIENT_ID }} \
             --registry-password ${{ secrets.AZURE_CLIENT_SECRET }} \
-            --cpu 1 \
-            --memory 1Gi \
+            --cpu 1.0 \
+            --memory 2.0Gi \
             --revisions-mode single
