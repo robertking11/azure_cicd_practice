@@ -1,5 +1,7 @@
 FROM python:3.11-slim
 
+WORKDIR /app
+
 # Install required dependencies and ODBC driver for SQL Server
 RUN apt-get update && apt-get install -y gnupg curl apt-transport-https
 
@@ -12,12 +14,11 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
-COPY requirements.txt .
+COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy app code
-COPY . /app
-WORKDIR /app
+COPY . /app/
 
 # Run app
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
