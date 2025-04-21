@@ -35,7 +35,7 @@ jobs:
             --image ${{ secrets.ACR_NAME }}.azurecr.io/fastapi-app:latest \
             --environment ${{ secrets.CONTAINER_APP_ENV }} \
             --ingress external \
-            --target-port 80 \
+            --target-port 8000 \
             --cpu 0.5 \
             --memory 1.0Gi \
             --registry-server ${{ secrets.ACR_NAME }}.azurecr.io \
