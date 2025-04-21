@@ -25,6 +25,7 @@ def get_db_connection():
     )
     return conn
 
+
 @app.get("/", response_class=HTMLResponse)
 def get_form(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
