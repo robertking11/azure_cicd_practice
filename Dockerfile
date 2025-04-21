@@ -14,11 +14,11 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
-COPY requirements.txt /app/
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy app code
-COPY . /app/
+COPY ./app ./app
 
 # Run app
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
