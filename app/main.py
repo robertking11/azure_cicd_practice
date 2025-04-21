@@ -1,17 +1,19 @@
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import OneHotEncoder
 import pandas as pd
 import pyodbc
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
 
 app = FastAPI()
-templates = Jinja2Templates(directory="templates")
+
+# Initialize Jinja2Templates
+templates = Jinja2Templates(directory="app/templates")
+
+# Serve static files (CSS, JS, etc.) from the 'static' directory
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 # Connection string
 def get_db_connection():
