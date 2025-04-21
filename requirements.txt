@@ -1,2 +1,10 @@
 fastapi
 uvicorn
+pydantic
+pyodbc
+numpy
+pandas
+scikit-learn
+python-dotenv
+jinja2
+python-multipart

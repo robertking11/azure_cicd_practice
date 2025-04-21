@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Matchmaker</title>
+</head>
+<body>
+    <h2>Find Your Most Compatible Match</h2>
+    <form method="post" action="/submit">
+        <label>Age: <input type="number" name="age" required></label><br><br>
+        <label>Favourite Food:
+            <select name="food">
+                <option value="Pizza">Pizza</option>
+                <option value="Sushi">Sushi</option>
+                <option value="Pasta">Pasta</option>
+                <option value="Burgers">Burgers</option>
+            </select>
+        </label><br><br>
+        <label>Holiday Type:
+            <select name="holiday">
+                <option value="Beach">Beach</option>
+                <option value="Mountains">Mountains</option>
+                <option value="City">City</option>
+                <option value="Adventure">Adventure</option>
+            </select>
+        </label><br><br>
+        <label>Film Genre:
+            <select name="film">
+                <option value="Action">Action</option>
+                <option value="Romance">Romance</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Horror">Horror</option>
+            </select>
+        </label><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if match %}
+        <h3>Your Most Compatible Match</h3>
+        <p>Age: {{ match.age }}</p>
+        <p>Food: {{ match.food }}</p>
+        <p>Holiday: {{ match.holiday }}</p>
+        <p>Film: {{ match.film }}</p>
+    {% endif %}
+</body>
+</html>
