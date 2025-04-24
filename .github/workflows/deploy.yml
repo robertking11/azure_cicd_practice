@@ -24,8 +24,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ secrets.ACR_NAME }}.azurecr.io/fastapi-app:latest .
-          docker push ${{ secrets.ACR_NAME }}.azurecr.io/fastapi-app:latest
+          docker build -t ${{ secrets.ACR_NAME }}.azurecr.io/bughunters33app:latest .
+          docker push ${{ secrets.ACR_NAME }}.azurecr.io/bughunters33app:latest
 
       - name: Deploy to Azure Container Apps
         run: |
